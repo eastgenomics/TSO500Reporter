@@ -1,12 +1,8 @@
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML, CSS
+import os
 
 from .constants import TMB_FIELDS, MSI_FIELDS
-
-css = CSS(string='''
-    @page {size: A4, margin=1cm;}
-    th, td {border: 1px solid black;}
-    ''')
 
 def write_html(dataset, report_dir="report", template_dir="templates", template_name="template.html"):
     """
@@ -33,8 +29,8 @@ def write_html(dataset, report_dir="report", template_dir="templates", template_
     with open(f"{report_dir}/report.html", "w") as f:
         f.write(html)
 
-def write_pdf(report_dir, css=css):
+def write_pdf(report_dir, css_file):
     """
     writes PDF from html
     """
-    HTML(f"{report_dir}/report.html").write_pdf(f"{report_dir}/report.pdf", stylesheets=[css])
+    HTML(f"{report_dir}/report.html").write_pdf(f"{report_dir}/report.pdf", stylesheets=[CSS(filename=css_file)])

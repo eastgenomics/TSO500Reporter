@@ -29,13 +29,13 @@ if __name__ == "__main__":
 
     os.makedirs(f"{args.output}/img")
 
-    plotter.generate_plot(dataset=df, x_column="Pair ID", y_columns=TMB_FIELDS)
-    plt.savefig(f"{args.output}/img/tmb.png")
+    tmb_fig = plotter.generate_plot(dataset=df, x_column="Pair ID", y_columns=TMB_FIELDS, fwidth=20, fheight=5)
+    tmb_fig.savefig(f"{args.output}/img/tmb.png", bbox_inches="tight")
 
-    plotter.generate_plot(dataset=df, x_column="Pair ID", y_columns=MSI_FIELDS)
-    plt.savefig(f"{args.output}/img/msi.png")
+    msi_fig = plotter.generate_plot(dataset=df, x_column="Pair ID", y_columns=MSI_FIELDS, fwidth=20, fheight=5)
+    msi_fig.savefig(f"{args.output}/img/msi.png", bbox_inches="tight")
 
     reporter.write_html(df, report_dir=args.output, template_dir=HTML_TEMPLATE_DIR)
 
     if args.pdf:
-        reporter.write_pdf(args.output)
+        reporter.write_pdf(args.output, css_file=f"{HTML_TEMPLATE_DIR}/styles.css")

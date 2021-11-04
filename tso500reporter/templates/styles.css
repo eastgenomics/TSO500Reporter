@@ -1,2 +1,7 @@
-@page {size: A4, margin=1cm;}
+@page {
+    size: Letter;
+    margin: 0in 0.44in 0.2in 0.44in;
+}
 th, td {border: 1px solid black;}
+#tmb { width: 100%; height: 100% }
+#msi { width: 100%; height: 100% }
