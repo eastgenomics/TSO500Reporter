@@ -3,7 +3,7 @@ import re
 
 import pandas as pd
 
-from constants import TMB_FIELDS, MSI_FIELDS
+from .constants import TMB_FIELDS, MSI_FIELDS
 
 def extract_header(header_string):
     return re.search('\[(.+)\]', header_string).group(1)

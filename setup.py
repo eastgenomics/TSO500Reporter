@@ -18,7 +18,7 @@ setup(name='TSO500Reporter',
           "jinja2",
           "matplotlib",
           "pandas",
-          "seaborn"
+          "seaborn",
           "weasyprint",
-          ]
+          ],
       zip_safe=False)

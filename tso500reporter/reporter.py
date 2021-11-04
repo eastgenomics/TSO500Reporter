@@ -1,7 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML, CSS
 
-from constants import TMB_FIELDS, MSI_FIELDS
+from .constants import TMB_FIELDS, MSI_FIELDS
 
 css = CSS(string='''
     @page {size: A4, margin=1cm;}

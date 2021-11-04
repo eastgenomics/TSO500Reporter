@@ -2,10 +2,10 @@ import argparse
 import matplotlib.pyplot as plt
 import os
 
-import parser
-import plotter
-import reporter
-from constants import TMB_FIELDS, MSI_FIELDS
+from . import parser
+from . import plotter
+from . import reporter
+from .constants import TMB_FIELDS, MSI_FIELDS
 
 HTML_TEMPLATE_DIR = f"{os.path.dirname(__file__)}/templates"
 
@@ -13,9 +13,9 @@ def parse_arguments():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-d", "--data", help="combined variant output files", nargs="+")
+    parser.add_argument("-d", "--data", help="combined variant output files", nargs="+", required=True)
     parser.add_argument("-o", "--output", help="directory to store report", default="report")
-    parser.add_argument("-p", "--pdf", help="include PDF report", default=False)
+    parser.add_argument("-p", "--pdf", help="include PDF report", action="store_true", default=False)
 
     args = parser.parse_args()
 
