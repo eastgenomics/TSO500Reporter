@@ -120,7 +120,7 @@ def collapse_record(record):
     cm = ChainMap(*record)
     return dict(cm)
 
-def parse_data(*files):
+def parse_variant_stats_data(*files):
     """
     docs here
     """
