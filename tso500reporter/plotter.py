@@ -11,5 +11,9 @@ def generate_plot(dataset, x_column, y_columns, fwidth=25, fheight=10):
     for ax in fig.axes:
         xlabels = ax.get_xticklabels()
         ax.set_xticklabels(xlabels, rotation=40, ha="right")
+        y_axis_title = ax.get_ylabel()
+        ax.yaxis.label.set_visible(False)
+        ax.set_title(y_axis_title)
+
 
     return fig
