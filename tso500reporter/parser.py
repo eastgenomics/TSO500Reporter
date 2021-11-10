@@ -8,6 +8,47 @@ from .constants import TMB_FIELDS, MSI_FIELDS
 def extract_header(header_string):
     return re.search('\[(.+)\]', header_string).group(1)
 
+def read_samplesheet(filename):
+    """
+    docs here
+    """
+
+    with open(filename, "r") as f:
+        data = {}
+    
+        for line in f:
+
+            line = line.rstrip("\n")
+
+            if re.match("^,+$", line):
+                continue
+
+            elif line[0] == "[":
+                header = extract_header(line)
+
+                if header in ["Data"]:
+                    column_names = f.readline().rstrip().split(",")
+                    data[header] = []
+                    tabular_data = True
+                else:
+                    data[header] = {}
+                    tabular_data = False
+
+            else:
+                if tabular_data:
+                    row_values = line.strip().split(",")
+                    data[header].append(dict(zip(column_names, row_values)))
+
+                ## Non-TSV formatted KV pairs can be dict'd normally
+                else:
+                    section_data = line.split(",")
+                    key = section_data[0]
+                    value = section_data[1]
+                    data[header][key] = value
+
+    return(data) 
+
+
 def read_combined_variant_output_file(filename):
     """
     docs here
@@ -29,11 +70,10 @@ def read_combined_variant_output_file(filename):
             # and the next line is a section header
             if line == "\t\t":
                 header_line = True
-                continue
 
             # PARSE HEADER DATA
             ## Extract the header name and make it a dictionary key
-            if header_line:
+            elif header_line:
 
                 header = extract_header(line)
                 header_line = False
@@ -48,12 +88,11 @@ def read_combined_variant_output_file(filename):
                     data[header] = [] # list of dicts for TSV formatted sections
                 else:
                     data[header] = {} # regular old dict for key-value sections
-                continue
 
             # PARSE SECTION DATA
             ## Again, these four sections are TSV formatted. We extract
             ## and put into list of dicts, with the section data header as keys
-            if header in ["Gene Amplifications", "Splice Variants", "Fusions", "Small Variants"]:
+            elif header in ["Gene Amplifications", "Splice Variants", "Fusions", "Small Variants"]:
                 column_values = line.split("\t")
 
                 ## For empty lines, TSO500 returns just a single "NA" instead of
