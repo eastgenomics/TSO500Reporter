@@ -1,8 +1,28 @@
+"""
+Generates barplots of submitted data
+"""
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pd
+from typing import List
 
-def generate_plot(dataset, x_column, y_columns, fwidth=25, fheight=10):
+def generate_plot(dataset: pd.DataFrame, x_column: str, y_columns: List[str], fwidth:int=25, fheight:int=10) -> plt.figure:
+    """
+    Generates barplots given a dataframe. If multiple y-axis columns are specified,
+    multiple subplots will be generated and returned as part of the overall figure. 
+    Returns the figure as an object.
 
+    Args:
+        dataset: a `pd.DataFrame` object
+        x_column: x axis variable
+        y_columns: y axis variables. If multiple y columns are specified, each will
+            be plotted within its own subplot.
+        fwidth: figure width in inches
+        fheight: figure height in inches
+
+    Returns:
+        The plot as a `plt.figure` object
+    """
     fig, axes = plt.subplots(1, len(y_columns), figsize=(fwidth, fheight))
 
     for idx in range(len(y_columns)):
