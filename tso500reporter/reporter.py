@@ -55,4 +55,4 @@ def write_pdf(report_dir: str, css_filepath: str) -> None:
     Returns:
         None
     """
-    HTML(f"{report_dir}/report.html").write_pdf(f"{report_dir}/report.pdf", stylesheets=[CSS(filename=css_file)])
+    HTML(f"{report_dir}/report.html").write_pdf(f"{report_dir}/report.pdf", stylesheets=[CSS(filename=css_filepath)])

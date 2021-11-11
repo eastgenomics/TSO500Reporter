@@ -369,7 +369,7 @@ def parse_variant_stats_data(*filepaths: str) -> pd.DataFrame:
     fields = ["Analysis Details", "Sequencing Run Details", "TMB", "MSI"]
     filtered_dataset = [[record.json[field] for field in fields] for record in dataset]
 
-    records = map(collapse_record, filtered_dataset)
+    records = map(flatten_record, filtered_dataset)
     df = pd.DataFrame(records)
 
     numeric_cols = TMB_FIELDS + MSI_FIELDS

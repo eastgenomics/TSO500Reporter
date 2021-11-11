@@ -1,5 +1,10 @@
+"""
+Produces MSI and TMB reports given output files from the TSO500 local app
+"""
 import argparse
 import os
+
+import pandas as pd
 
 from . import parser
 from . import plotter
@@ -26,7 +31,7 @@ if __name__ == "__main__":
 
     args = parse_arguments()
 
-    variant_df = parser.parse_variant_stats_data(*args.data)
+    variant_df = parser.parse_variant_stats_data(*args.variant_data)
 
     # filter RNA samples
     if args.filter_rna:
@@ -50,4 +55,4 @@ if __name__ == "__main__":
 
     # Optionally write PDF report
     if args.pdf:
-        reporter.write_pdf(args.output, css_file=f"{HTML_TEMPLATE_DIR}/styles.css")
+        reporter.write_pdf(args.output, css_filepath=f"{HTML_TEMPLATE_DIR}/styles.css")

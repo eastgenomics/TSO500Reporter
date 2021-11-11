@@ -3,7 +3,7 @@ Generates barplots of submitted data
 """
 import matplotlib.pyplot as plt
 import seaborn as sns
-import pd
+import pandas as pd
 from typing import List
 
 def generate_plot(dataset: pd.DataFrame, x_column: str, y_columns: List[str], fwidth:int=25, fheight:int=10) -> plt.figure:
