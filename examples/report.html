@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/home/pauls4/workspace/development/TSO500Reporter/tso500reporter/templates/styles.css">
+        <meta charset="utf-8">
+        <title>TSO500 TMB & MSI</title>
+    </head>
+    <body>
+        <div>
+            <h1>Tumour Mutational Burden</h1>
+            <img src=img/tmb.png id="tmb">
+            <h2>data</h2>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pair ID</th>
+      <th>Total TMB</th>
+      <th>Coding Region Size in Megabases</th>
+      <th>Number of Passing Eligible Variants</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GM2110198-1</td>
+      <td>0.800000</td>
+      <td>1.27</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GM2110198-2</td>
+      <td>0.800000</td>
+      <td>1.27</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MB0449-1</td>
+      <td>1.600000</td>
+      <td>1.27</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MB0449-2</td>
+      <td>1.600000</td>
+      <td>1.27</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MB1074-1</td>
+      <td>0.000000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>MB1074-2</td>
+      <td>4.700000</td>
+      <td>1.28</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>MB1274-1</td>
+      <td>7.900000</td>
+      <td>1.26</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>MB1274-2</td>
+      <td>8.700000</td>
+      <td>1.26</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>PN1700379-1</td>
+      <td>16.500000</td>
+      <td>1.27</td>
+      <td>21.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>PN1700379-2</td>
+      <td>17.200001</td>
+      <td>1.28</td>
+      <td>22.0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>PN1700778-1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>PN1700778-2</td>
+      <td>5.500000</td>
+      <td>1.28</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>PN2000397-1</td>
+      <td>445.299988</td>
+      <td>1.28</td>
+      <td>569.0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>PN2000397-2</td>
+      <td>441.299988</td>
+      <td>1.28</td>
+      <td>564.0</td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+        <div>
+            <h1>Microsatellite Instability</h1>
+            <img src=img/msi.png id="msi">
+            <h2>data</h2>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pair ID</th>
+      <th>Usable MSI Sites</th>
+      <th>Total MSI Sites Unstable</th>
+      <th>Percent Unstable MSI Sites</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>GM2110198-1</td>
+      <td>111.0</td>
+      <td>1.0</td>
+      <td>0.90</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GM2110198-2</td>
+      <td>110.0</td>
+      <td>2.0</td>
+      <td>1.82</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MB0449-1</td>
+      <td>115.0</td>
+      <td>2.0</td>
+      <td>1.74</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MB0449-2</td>
+      <td>103.0</td>
+      <td>1.0</td>
+      <td>0.97</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MB1074-1</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>MB1074-2</td>
+      <td>96.0</td>
+      <td>3.0</td>
+      <td>3.12</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>MB1274-1</td>
+      <td>66.0</td>
+      <td>2.0</td>
+      <td>3.03</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>MB1274-2</td>
+      <td>41.0</td>
+      <td>2.0</td>
+      <td>4.88</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>PN1700379-1</td>
+      <td>114.0</td>
+      <td>17.0</td>
+      <td>14.91</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>PN1700379-2</td>
+      <td>116.0</td>
+      <td>15.0</td>
+      <td>12.93</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>PN1700778-1</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>PN1700778-2</td>
+      <td>120.0</td>
+      <td>6.0</td>
+      <td>5.00</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>PN2000397-1</td>
+      <td>117.0</td>
+      <td>7.0</td>
+      <td>5.98</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>PN2000397-2</td>
+      <td>117.0</td>
+      <td>6.0</td>
+      <td>5.13</td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+    </body>
+</html>

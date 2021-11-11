@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{template_dir}}/styles.css">
+        <meta charset="utf-8">
+        <title>{{page_title_text}}</title>
+    </head>
+    <body>
+        <div>
+            <h1>Tumour Mutational Burden</h1>
+            <img src={{tmb_plot_path}} id="tmb">
+            <h2>data</h2>
+            {{tmb_data.to_html()}}
+        </div>
+        <div>
+            <h1>Microsatellite Instability</h1>
+            <img src={{msi_plot_path}} id="msi">
+            <h2>data</h2>
+            {{msi_data.to_html()}}
+        </div>
+    </body>
+</html>
