@@ -5,113 +5,219 @@ import pandas as pd
 
 from .constants import TMB_FIELDS, MSI_FIELDS
 
-def extract_header(header_string):
-    return re.search('\[(.+)\]', header_string).group(1)
+class IlluminaFile(object):
+    """
+    Not intended to be used. Use sub-classes instead
+    """
+    def __init__(self, filename=None, delim=None, skip=None, tabular_sections=[], array_sections=[]):
+        self.filename = filename
+        self._tabular_sections = tabular_sections
+        self._array_sections = array_sections
+        self._delim = delim
+        self._skip = skip
+        self.json = None
 
-def read_samplesheet(filename):
+    @property
+    def json(self):
+        return self.__json
+
+    @json.setter
+    def json(self, val):
+        if val is None:
+            self.__json = self.__read()
+
+    def __read(self): 
+        with open(self.filename, "r") as f:
+            file_contents = {}
+
+            ## some files have license/use info at the top. Skip these lines
+            if self._skip > 0:
+                [next(f) for i in range(self._skip)]
+
+            for line in f:
+                line = line.rstrip("\n")
+
+                ## skip over lines entirely made of delimiters; these are section breaks
+                if re.match(f"^{self._delim}+$", line):
+                    continue
+
+                ## handle section header
+                elif line[0] == "[":
+                    header = self._extract_header(line)
+
+                    if header in self._tabular_sections:
+                        ## section head followed by column names. Go to next line in
+                        ## file here and extract column names. The rest of the 
+                        ## lines can be handled like normal tabular data (CSV, TSV etc.) 
+                        column_names = f.readline().rstrip().split(self._delim)
+                        file_contents[header] = []
+                        data_type = "tabular"
+                    elif header in self._array_sections:
+                        file_contents[header] = []
+                        data_type = "array"
+                    else:
+                        file_contents[header] = {}
+                        data_type = "record"
+
+                ## handle section data
+                else:
+                    row = line.split(self._delim)
+                    if data_type == "tabular":
+                        if len(row) < len(column_names):
+                            n_missing_values = len(column_names) - len(row)
+                            rows += ["NA" for i in range(n_missing_values)]
+                        file_contents[header].append(dict(zip(column_names, row)))
+
+                    elif data_type == "array":
+                        value = row[0]
+                        file_contents[header].append(value)
+
+                    else:
+                        ## i.e. data_type == "record"
+                        ## Non-TSV formatted KV pairs can be dict'd normally
+                        key = row[0]
+                        value = row[1]
+                        file_contents[header][key] = value
+
+        return(file_contents) 
+
+    def _extract_header(self, header_string):
+        return re.search('\[(.+)\]', header_string).group(1)
+
+class CombinedVariantOutput(IlluminaFile):
     """
     docs here
     """
+    def __init__(self, filename):
+        super().__init__(filename=filename, delim="\t", tabular_sections=["Gene Amplifications", "Splice Variants", "Fusions", "Small Variants"], array_sections=[], skip=2)
+        self.analysis_details = None
+        self.sequencing_run_details = None
+        self.tmb = None
+        self.msi = None
+        self.gene_amplifications = None
+        self.splice_variants = None
+        self.fusions = None
+        self.small_variants = None
 
-    with open(filename, "r") as f:
-        data = {}
-    
-        for line in f:
+    @property
+    def analysis_details(self):
+        return self.__analysis_details
 
-            line = line.rstrip("\n")
+    @analysis_details.setter
+    def analysis_details(self, val):
+        if val is None:
+            self.__analysis_details = self.json["Analysis Details"]
 
-            if re.match("^,+$", line):
-                continue
+    @property
+    def sequencing_run_details(self):
+        return self.__sequencing_run_details
 
-            elif line[0] == "[":
-                header = extract_header(line)
+    @sequencing_run_details.setter
+    def sequencing_run_details(self, val):
+        if val is None:
+            self.__sequencing_run_details = self.json["Sequencing Run Details"]
 
-                if header in ["Data"]:
-                    column_names = f.readline().rstrip().split(",")
-                    data[header] = []
-                    tabular_data = True
-                else:
-                    data[header] = {}
-                    tabular_data = False
+    @property
+    def tmb(self):
+        return self.__tmb
 
-            else:
-                if tabular_data:
-                    row_values = line.strip().split(",")
-                    data[header].append(dict(zip(column_names, row_values)))
+    @tmb.setter
+    def tmb(self, val):
+        if val is None:
+            self.__tmb = self.json["TMB"]
 
-                ## Non-TSV formatted KV pairs can be dict'd normally
-                else:
-                    section_data = line.split(",")
-                    key = section_data[0]
-                    value = section_data[1]
-                    data[header][key] = value
+    @property
+    def msi(self):
+        return self.__msi
 
-    return(data) 
+    @msi.setter
+    def msi(self, val):
+        if val is None:
+            self.__msi = self.json["MSI"]
+
+    @property
+    def gene_amplifications(self):
+        return self.__gene_amplifications
+
+    @gene_amplifications.setter
+    def gene_amplifications(self, val):
+        if val is None:
+            self.__gene_amplifications = self.json["Gene Amplifications"]
+
+    @property
+    def splice_variants(self):
+        return self.__splice_variants
+
+    @splice_variants.setter
+    def splice_variants(self, val):
+        if val is None:
+            self.__splice_variants = self.json["Splice Variants"]
+
+    @property
+    def fusions(self):
+        return self.__fusions
+
+    @fusions.setter
+    def fusions(self, val):
+        if val is None:
+            self.__fusions = self.json["Fusions"]
+
+    @property
+    def small_variants(self):
+        return self.__small_variants
+
+    @small_variants.setter
+    def small_variants(self, val):
+        if val is None:
+            self.__small_variants = self.json["Small Variants"]
 
 
-def read_combined_variant_output_file(filename):
+class SampleSheet(IlluminaFile):
     """
     docs here
     """
+    def __init__(self, filename):
+        super().__init__(filename, delim=",", tabular_sections=["Data"], array_sections=["Reads"], skip=0)
+        self.header = None
+        self.reads = None
+        self.settings = None
+        self.data = None
 
-    with open(filename, "r") as f:
+    @property
+    def header(self):
+        return self.__header
 
-        data = {}
+    @header.setter
+    def header(self, val):
+        if val is None:
+            self.__header = self.json["Header"]
 
-        # SKIP LOGGING LINES
-        next(f)
-        next(f)
+    @property
+    def reads(self):
+        return self.__reads
 
-        for line in f:
+    @reads.setter
+    def reads(self, val):
+        if val is None:
+            self.__reads = self.json["Reads"]
 
-            line = line.rstrip("\n")
+    @property
+    def settings(self):
+        return self.__settings
 
-            # if line is made of two tabs, the section is over
-            # and the next line is a section header
-            if line == "\t\t":
-                header_line = True
+    @settings.setter
+    def settings(self, val):
+        if val is None:
+            self.__settings = self.json["Settings"]
 
-            # PARSE HEADER DATA
-            ## Extract the header name and make it a dictionary key
-            elif header_line:
+    @property
+    def data(self):
+        return self.__data
 
-                header = extract_header(line)
-                header_line = False
-
-                ## The named sections are TSV formatted.
-                ## This means the line after the section header is the
-                ## header of the TSV data.
-                ## The extra f.readline() bit handles this so the next line
-                ## can be handled like normal data.
-                if header in ["Gene Amplifications", "Splice Variants", "Fusions", "Small Variants"]:
-                    column_names = f.readline().rstrip().split("\t")
-                    data[header] = [] # list of dicts for TSV formatted sections
-                else:
-                    data[header] = {} # regular old dict for key-value sections
-
-            # PARSE SECTION DATA
-            ## Again, these four sections are TSV formatted. We extract
-            ## and put into list of dicts, with the section data header as keys
-            elif header in ["Gene Amplifications", "Splice Variants", "Fusions", "Small Variants"]:
-                column_values = line.split("\t")
-
-                ## For empty lines, TSO500 returns just a single "NA" instead of
-                ## multiple NAs. We'll lose header information if they aren't
-                ## converted from implicit missing data to explicit missing data
-                if column_values[0] == "NA":
-                    column_values = ["" for i in range(len(column_names))]
-
-                ## fill list of dicts
-                data[header].append(dict(zip(column_names, column_values)))
-
-            ## Non-TSV formatted KV pairs can be dict'd normally
-            else:
-                section_data = line.split("\t")
-                key = section_data[0]
-                value = section_data[1]
-                data[header][key] = value
-
-        return(data)
+    @data.setter
+    def data(self, val):
+        if val is None:
+            self.__data = self.json["Data"]
 
 def collapse_record(record):
     """
@@ -127,10 +233,10 @@ def parse_variant_stats_data(*files):
     dataset = []
 
     for f in files:
-        dataset.append(read_combined_variant_output_file(f))
+        dataset.append(CombinedVariantOutput(f))
 
     fields = ["Analysis Details", "Sequencing Run Details", "TMB", "MSI"]
-    filtered_dataset = [[record[field] for field in fields] for record in dataset]
+    filtered_dataset = [[record.json[field] for field in fields] for record in dataset]
 
     records = map(collapse_record, filtered_dataset)
     df = pd.DataFrame(records)
