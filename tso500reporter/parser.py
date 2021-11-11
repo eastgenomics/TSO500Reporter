@@ -65,7 +65,7 @@ class IlluminaFile(object):
                     if data_type == "tabular":
                         if len(row) < len(column_names):
                             n_missing_values = len(column_names) - len(row)
-                            rows += ["NA" for i in range(n_missing_values)]
+                            row += ["NA" for i in range(n_missing_values)]
                         file_contents[header].append(dict(zip(column_names, row)))
 
                     elif data_type == "array":
