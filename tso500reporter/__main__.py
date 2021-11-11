@@ -33,8 +33,8 @@ if __name__ == "__main__":
 
     # filter RNA samples
     if args.filter_rna:
-        samplesheet = parser.read_samplesheet(args.samplesheet)
-        samplesheet_df = pd.DataFrame(samplesheet["Data"])
+        samplesheet = parser.SampleSheet(args.samplesheet)
+        samplesheet_df = pd.DataFrame(samplesheet.data)
         variant_df = pd.merge(variant_df, samplesheet_df, how="left", left_on="Pair ID", right_on="Pair_ID")
         variant_df = variant_df.loc[lambda df: df["Sample_Type"] != "RNA", :]
 
