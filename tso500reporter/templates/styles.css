@@ -3,5 +3,23 @@
     margin: 0in 0.44in 0.2in 0.44in;
 }
 th, td {border: 1px solid black;}
+@media screen {
+    div.divHeader {
+        font-size:1.875em;
+        font-style: italic;
+        position: fixed;
+        top: 0;
+        right: 0;
+    }
+}
+@media print {
+    div.divHeader {
+        font-size:0.785em;
+        font-style: italic;
+        position: fixed;
+        top: 0;
+        right: 0;
+    }
+}
 #tmb { width: 100%; height: 100% }
 #msi { width: 100%; height: 100% }

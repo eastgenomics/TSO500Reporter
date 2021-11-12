@@ -9,7 +9,7 @@ from weasyprint import HTML, CSS
 
 from .constants import TMB_FIELDS, MSI_FIELDS
 
-def write_html(dataset: pd.DataFrame, report_dir: str="report", template_dir:str ="templates", template_filename:str ="template.html") -> None:
+def write_html(dataset: pd.DataFrame, run_name: str=None, report_dir: str="report", template_dir:str ="templates", template_filename:str ="template.html") -> None:
     """
     Writes the dataset (as a table) and plots to a HTML. The function assumes the plots have already
     been generated and stored in PNG format.
@@ -34,6 +34,7 @@ def write_html(dataset: pd.DataFrame, report_dir: str="report", template_dir:str
 
     # Render the template with variables
     html = template.render(page_title_text='TSO500 TMB & MSI',
+                           run_name=run_name,
                            tmb_plot_path="img/tmb.png",
                            tmb_data=tmb_data,
                            msi_plot_path="img/msi.png",
