@@ -19,7 +19,6 @@ def parse_arguments():
 
     parser.add_argument("-d", "--variant-data", help="filepaths to <SAMPLE>_*CombinedVariantOutput.tsv files", nargs="+", required=True)
     parser.add_argument("-s", "--samplesheet", help="samplesheet", required=True)
-    parser.add_argument("-f", "--filter-rna", help="remove RNA samples from output", action="store_true", default=True)
     parser.add_argument("-o", "--output", help="directory to store report", default="report")
     parser.add_argument("-p", "--pdf", help="include PDF report", action="store_true", default=False)
 
@@ -34,10 +33,9 @@ if __name__ == "__main__":
     variant_df = parser.parse_variant_stats_data(*args.variant_data)
 
     # filter RNA samples
-    if args.filter_rna:
-        samplesheet_df = parser.parse_samplesheet_data(args.samplesheet)
-        variant_df = pd.merge(variant_df, samplesheet_df, how="left", left_on="Pair ID", right_on="Pair_ID")
-        variant_df = variant_df.loc[lambda df: df["Sample_Type"] != "RNA", :]
+    samplesheet_df = parser.parse_samplesheet_data(args.samplesheet)
+    variant_df = pd.merge(variant_df, samplesheet_df, how="left", left_on="Pair ID", right_on="Pair_ID")
+    variant_df = variant_df.loc[lambda df: df["Sample_Type"] != "RNA", :]
 
     # make output file
     os.makedirs(f"{args.output}/img")
