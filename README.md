@@ -118,5 +118,6 @@ Alternatively, we can access all of the data at once by accessing the `json` att
 
 ```python
 >>> cvo_data.json.keys()
->>> dict_keys(['Analysis Details', 'Sequencing Run Details', 'TMB', 'MSI', 'Gene Amplifications', 'Splice Variants', 'Fusions', 'Small Variants'])
+
+dict_keys(['Analysis Details', 'Sequencing Run Details', 'TMB', 'MSI', 'Gene Amplifications', 'Splice Variants', 'Fusions', 'Small Variants'])
 ```
