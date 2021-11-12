@@ -22,7 +22,7 @@ python3 -m tso500reporter --variant-data /path/to/*CombinedVariantOutput.tsv --s
 ```
 
 This will write an HTML and PDF report to the specified output directory containing Tumour Mutational Burden (TMB) and Microsatellite Instability (MSI) metrics.
-An example report can be found [here](report.pdf).
+An example report can be found [here](examples/report.pdf).
 
 #### Usage
 
