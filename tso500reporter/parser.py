@@ -131,11 +131,15 @@ class IlluminaFile(object):
 
 class CombinedVariantOutput(IlluminaFile):
     """
-    Class for parsing `<SAMPLE>_CombinedVariantOutput.tsv` output files
+    Class for parsing `<SAMPLE>_CombinedVariantOutput.tsv` output files. Reads the
+    data into JSON format, and allows interaction with section data via attributes.
 
-    Longer class info...
-    Longer class info...
+    Basic usage:
 
+        >>> from tso500parser.parser import CombinedVariantOutput
+        >>> cvo_data = CombinedVariantOutput("<sample>_CombinedVariantOutput.tsv")
+        >>> cvo_data.analysis_details
+        
     Attributes:
         filename: path to file
         analysis_details: Analysis metadata
@@ -263,10 +267,14 @@ class CombinedVariantOutput(IlluminaFile):
 
 class SampleSheet(IlluminaFile):
     """
-    Class for parsing TSO500-specific `*_SampleSheet.csv` files
+    Class for parsing TSO500-specific `*_SampleSheet.csv` files. Reads the
+    data into JSON format, and allows interaction with section data via attributes.
 
-    Longer class info...
-    Longer class info...
+    Basic usage:
+
+        >>> from tso500parser.parser import CombinedVariantOutput
+        >>> samplesheet = CombinedVariantOutput("SampleSheet.csv")
+        >>> samplesheet.header
 
     Attributes:
         filename: path to file
