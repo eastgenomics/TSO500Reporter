@@ -21,6 +21,9 @@ After installation, run the following command to produce the report:
 python3 -m tso500reporter --variant-data /path/to/*CombinedVariantOutput.tsv --samplesheet /path/to/SampleSheet.csv --output /path/to/output --filter-rna --pdf 
 ```
 
+This will write an HTML and PDF report to the specified output directory containing Tumour Mutational Burden (TMB) and Microsatellite Instability (MSI) metrics.
+An example report can be found [here](report.pdf).
+
 #### Usage
 
 ```shell
