@@ -32,15 +32,11 @@ def parse_arguments():
 
     return args
 
-
-if __name__ == "__main__":
-
-    args = parse_arguments()
-
-    variant_df = parser.parse_variant_stats_data(*args.variant_data)
+def main(variant_data, samplesheet, output="report", pdf=True):
+    variant_df = parser.parse_variant_stats_data(*variant_data)
 
     # filter RNA samples
-    samplesheet = parser.SampleSheet(args.samplesheet)
+    samplesheet = parser.SampleSheet(samplesheet)
     samplesheet_df = pd.DataFrame(samplesheet.data)
     variant_df = pd.merge(
             variant_df, 
@@ -51,7 +47,7 @@ if __name__ == "__main__":
     variant_df = variant_df.loc[lambda df: df["Sample_Type"] != "RNA", :]
 
     # make output file
-    os.makedirs(f"{args.output}/img")
+    os.makedirs(f"{output}/img")
 
     # plot and save TMB data
     tmb_fig = plotter.generate_plot(
@@ -60,7 +56,7 @@ if __name__ == "__main__":
             y_columns=TMB_FIELDS, 
             fwidth=20, 
             fheight=5)
-    tmb_fig.savefig(f"{args.output}/img/tmb.png", bbox_inches="tight")
+    tmb_fig.savefig(f"{output}/img/tmb.png", bbox_inches="tight")
 
     # plot and save MSI data
     msi_fig = plotter.generate_plot(
@@ -69,21 +65,26 @@ if __name__ == "__main__":
             y_columns=MSI_FIELDS, 
             fwidth=20, 
             fheight=5)
-    msi_fig.savefig(f"{args.output}/img/msi.png", bbox_inches="tight")
+    msi_fig.savefig(f"{output}/img/msi.png", bbox_inches="tight")
 
     # Write HTML report
     # need sequencing run header from one of the CVO files
-    cvo = parser.CombinedVariantOutput(args.variant_data[0])
+    cvo = parser.CombinedVariantOutput(variant_data[0])
     run_name = cvo.sequencing_run_details["Run Name"]
     reporter.write_html(
             variant_df, 
             embed=True,
             run_name=run_name, 
-            report_dir=args.output, 
+            report_dir=output, 
             template_dir=HTML_TEMPLATE_DIR)
 
     # Optionally write PDF report
-    if args.pdf:
+    if pdf:
         reporter.write_pdf(
-                args.output, 
+                output, 
                 css_filepath=f"{HTML_TEMPLATE_DIR}/styles.css")
+
+if __name__ == "__main__":
+
+    args = parse_arguments()
+    main(args.variant_data, args.samplesheet, args.output, args.pdf)
