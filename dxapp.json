@@ -29,11 +29,11 @@
       "help": "Array of files containing combined variant output statistics"
     },
     {
-      "name": "pdf",
-      "label": "Include PDF report in output",
-      "class": "boolean",
-      "default": true,
-      "help": "Include PDF report in output"
+      "name": "output",
+      "label": "Directory to store output",
+      "class": "string",
+      "optional": false,
+      "default": "report"
     }
   ],
   "outputSpec": [
@@ -51,9 +51,9 @@
       "label": "PDF report",
       "class": "file",
       "patterns": [
-        "*"
+        "report.pdf"
       ],
-      "help": ""
+      "help": "PDF report containing MSI/TMB statistics"
     }
   ],
   "runSpec": {
