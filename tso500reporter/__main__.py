@@ -77,6 +77,7 @@ if __name__ == "__main__":
     run_name = cvo.sequencing_run_details["Run Name"]
     reporter.write_html(
             variant_df, 
+            embed=True,
             run_name=run_name, 
             report_dir=args.output, 
             template_dir=HTML_TEMPLATE_DIR)

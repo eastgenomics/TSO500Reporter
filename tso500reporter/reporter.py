@@ -1,6 +1,7 @@
 """
 Handles reporting of plots and data to HTML and PDF
 """
+import base64
 from jinja2 import Environment, FileSystemLoader
 import pandas as pd
 from weasyprint import HTML, CSS
@@ -8,9 +9,22 @@ from weasyprint import HTML, CSS
 from .constants import TMB_FIELDS, MSI_FIELDS
 
 
+def to_base64(png):
+    """
+    Encodes a PNG as a base64 encoded string, embedding
+    it in the file.
+    """
+
+    with open(png, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
+
+    return f"data:image/png;base64,{encoded_string}"
+
+
 def write_html(
         dataset: pd.DataFrame,
         run_name: str = None,
+        embed = False,
         report_dir: str = "report",
         template_dir: str = "templates",
         template_filename: str = "template.html") -> None:
@@ -38,12 +52,20 @@ def write_html(
     # Load the template from the Environment
     template = env.get_template(template_filename)
 
+    # handle PNG embedding
+    if embed:
+        tmb_image = to_base64(f"{report_dir}/img/tmb.png")
+        msi_image = to_base64(f"{report_dir}/img/msi.png")
+    else:
+        tmb_image = "img/tmb.png"
+        msi_image = "img/msi.png"
+
     # Render the template with variables
     html = template.render(page_title_text='TSO500 TMB & MSI',
                            run_name=run_name,
-                           tmb_plot_path="img/tmb.png",
+                           tmb_plot_path=tmb_image,
                            tmb_data=tmb_data,
-                           msi_plot_path="img/msi.png",
+                           msi_plot_path=msi_image,
                            msi_data=msi_data,
                            template_dir=template_dir)
 
