@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='TSO500Reporter',
-      version='0.1',
+      version='0.1.0',
       description='Parsing and reporting library for the TSO500 app. Works \
             with CombinedVariantOutput.tsv files and allows data \
             manipulation and report generation.',
