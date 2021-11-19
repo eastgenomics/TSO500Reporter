@@ -1,13 +1,15 @@
 """
 Classes for parsing files used in, and produced by, Illumina's TSO500 app
 """
-from collections import ChainMap
+from collections import Counter, ChainMap
+from functools import reduce
 import re
 from typing import Dict, List, Any
 
 import pandas as pd
 
 from .constants import TMB_FIELDS, MSI_FIELDS
+from .exceptions import DuplicateKeyError
 
 JSONType = Dict[Dict[str, Any], List[Dict[str, Any]]]
 
@@ -29,11 +31,11 @@ class IlluminaFile(object):
     Refer to derived classes for examples of usage.
     """
     def __init__(self,
-            filename: str = None,
-            delim: str = None,
-            skip: int = 0,
-            tabular_sections: List[str] = [],
-            array_sections: List[str] = [])-> None:
+                 filename: str = None,
+                 delim: str = None,
+                 skip: int = 0,
+                 tabular_sections: List[str] = [],
+                 array_sections: List[str] = []) -> None:
         """
         Inits IlluminaFile with filename, delimiter, the number of
         lines to skip (due to boilerplate lines at the top of some
@@ -364,6 +366,16 @@ class SampleSheet(IlluminaFile):
             self._data = self.json["Data"]
 
 
+def find_duplicate_keys(record: Dict[str, Dict]) -> List:
+    """
+    finds duplicated keys in a dict of dicts
+    """
+    all_keys = reduce(lambda x, y: x + list(y.keys()), record, [])
+    key_counts = Counter(all_keys)
+    duplicate_keys = list(filter(lambda x: key_counts[x] > 1, key_counts))
+    return duplicate_keys
+
+
 def flatten_record(record: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Flattens list of dicts to single dict
@@ -374,6 +386,11 @@ def flatten_record(record: List[Dict[str, Any]]) -> Dict[str, Any]:
     Returns:
         a single, flattened dict
     """
+    duplicate_keys = find_duplicate_keys(record)
+
+    if len(duplicate_keys) > 0:
+        raise DuplicateKeyError(duplicate_keys)
+
     chain_map = ChainMap(*record)
     return dict(chain_map)
 
