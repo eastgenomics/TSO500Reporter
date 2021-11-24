@@ -4,12 +4,12 @@ Handles reporting of plots and data to HTML and PDF
 import base64
 from jinja2 import Environment, FileSystemLoader
 import pandas as pd
-from weasyprint import HTML, CSS
+from weasyprint import HTML
 
 from .constants import TMB_FIELDS, MSI_FIELDS
 
 
-def to_base64(png):
+def to_base64(png: str) -> str:
     """
     Encodes a PNG as a base64 encoded string, embedding
     it in the file.
@@ -27,11 +27,14 @@ def write_html(
         embed = False,
         report_dir: str = "report",
         template_dir: str = "templates",
-        template_filename: str = "template.html") -> None:
+        html_template_name: str = "template.html",
+        css_template_name: str = "styles.css") -> None:
     """
     Writes the dataset (as a table) and plots to a HTML.
     The function assumes the plots have already been
     generated and stored in PNG format.
+
+    Currently CSS is inline only.
 
     Args:
         dataset: the `pd.DataFrame` as produced
@@ -50,15 +53,15 @@ def write_html(
     env = Environment(loader=FileSystemLoader(template_dir))
 
     # Load the template from the Environment
-    template = env.get_template(template_filename)
+    template = env.get_template(html_template_name)
 
     # handle PNG embedding
     if embed:
         tmb_image = to_base64(f"{report_dir}/img/tmb.png")
         msi_image = to_base64(f"{report_dir}/img/msi.png")
     else:
-        tmb_image = "img/tmb.png"
-        msi_image = "img/msi.png"
+        tmb_image = f"{report_dir}/img/tmb.png"
+        msi_image = f"{report_dir}/img/msi.png"
 
     # Render the template with variables
     html = template.render(page_title_text='TSO500 TMB & MSI',
@@ -67,14 +70,15 @@ def write_html(
                            tmb_data=tmb_data,
                            msi_plot_path=msi_image,
                            msi_data=msi_data,
-                           template_dir=template_dir)
+                           template_dir=template_dir,
+                           css_template=css_template_name)
 
     # 4. Write output
     with open(f"{report_dir}/report.html", "w") as f:
         f.write(html)
 
 
-def write_pdf(report_dir: str, css_filepath: str) -> None:
+def write_pdf(report_dir: str) -> None:
     """
     Produces a PDF report using the HTML report
     (produced by `write_html`) as template.
@@ -86,6 +90,4 @@ def write_pdf(report_dir: str, css_filepath: str) -> None:
     Returns:
         None
     """
-    HTML(f"{report_dir}/report.html").write_pdf(
-            target=f"{report_dir}/report.pdf",
-            stylesheets=[CSS(filename=css_filepath)])
+    HTML(f"{report_dir}/report.html").write_pdf(target=f"{report_dir}/report.pdf")
