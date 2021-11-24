@@ -6,9 +6,7 @@ import os
 
 import pandas as pd
 
-from . import parser
-from . import plotter
-from . import reporter
+from . import parser, plotter, reporter
 from .constants import TMB_FIELDS, MSI_FIELDS
 
 HTML_TEMPLATE_DIR = f"{os.path.dirname(__file__)}/templates"
