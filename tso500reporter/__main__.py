@@ -50,7 +50,7 @@ def main(variant_data, samplesheet, output="report", pdf=True):
     # plot and save TMB data
     tmb_fig = plotter.generate_plot(
             dataset=variant_df,
-            x_column="Pair ID",
+            x_column="DNA Sample ID",
             y_columns=TMB_FIELDS,
             fwidth=20,
             fheight=5)
@@ -59,7 +59,7 @@ def main(variant_data, samplesheet, output="report", pdf=True):
     # plot and save MSI data
     msi_fig = plotter.generate_plot(
             dataset=variant_df,
-            x_column="Pair ID",
+            x_column="DNA Sample ID",
             y_columns=MSI_FIELDS,
             fwidth=20,
             fheight=5)

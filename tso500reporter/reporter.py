@@ -44,8 +44,8 @@ def write_html(
     Returns:
         None
     """
-    tmb_data = dataset[["Pair ID"] + TMB_FIELDS]
-    msi_data = dataset[["Pair ID"] + MSI_FIELDS]
+    tmb_data = dataset[["DNA Sample ID"] + TMB_FIELDS]
+    msi_data = dataset[["DNA Sample ID"] + MSI_FIELDS]
 
     # Create a template Environment
     env = Environment(loader=FileSystemLoader(template_dir))
