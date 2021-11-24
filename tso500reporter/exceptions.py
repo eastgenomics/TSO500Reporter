@@ -10,7 +10,7 @@ class DuplicateKeyError(Exception):
     dict-flattening.
 
     Attributes:
-        duplicate_keys: input salary which caused the error
+        duplicate_keys: input keys which caused the error
     """
 
     def __init__(self, duplicate_keys: List) -> None:
