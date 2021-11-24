@@ -34,8 +34,6 @@ def write_html(
     The function assumes the plots have already been
     generated and stored in PNG format.
 
-    Currently CSS is inline only.
-
     Args:
         dataset: the `pd.DataFrame` as produced
             by `parser.parse_variant_output_files()`
