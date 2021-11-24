@@ -2,22 +2,26 @@
 <html>
     <div class="divHeader">{{run_name}}</div>
     <head>
-        <link rel="stylesheet" href="{{template_dir}}/styles.css">
+        <style type="text/css">
+        {% include css_template %}
+        </style>
         <meta charset="utf-8">
         <title>{{page_title_text}}</title>
     </head>
     <body>
         <div>
             <h1>Tumour Mutational Burden</h1>
+            <h2>Plot</h2>
             <img src={{tmb_plot_path}} id="tmb">
-            <h2>data</h2>
-            {{tmb_data.to_html()}}
+            <h2>Data</h2>
+            {{tmb_data.to_html(index=False)}}
         </div>
         <div>
             <h1>Microsatellite Instability</h1>
+            <h2>Plot</h2>
             <img src={{msi_plot_path}} id="msi">
-            <h2>data</h2>
-            {{msi_data.to_html()}}
+            <h2>Data</h2>
+            {{msi_data.to_html(index=False)}}
         </div>
     </body>
 </html>
