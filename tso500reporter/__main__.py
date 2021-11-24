@@ -18,14 +18,14 @@ def parse_arguments():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-d", "--variant-data", 
-            help="filepaths to <SAMPLE>_*CombinedVariantOutput.tsv files", 
+    parser.add_argument("-d", "--variant-data",
+            help="filepaths to <SAMPLE>_*CombinedVariantOutput.tsv files",
             nargs="+", required=True)
-    parser.add_argument("-s", "--samplesheet", 
+    parser.add_argument("-s", "--samplesheet",
             help="samplesheet",  required=True)
-    parser.add_argument("-o", "--output", 
+    parser.add_argument("-o", "--output",
             help="directory to store report", default="report")
-    parser.add_argument("-p", "--pdf", 
+    parser.add_argument("-p", "--pdf",
             help="include PDF report", action="store_true", default=False)
 
     args = parser.parse_args()
@@ -39,10 +39,10 @@ def main(variant_data, samplesheet, output="report", pdf=True):
     samplesheet = parser.SampleSheet(samplesheet)
     samplesheet_df = pd.DataFrame(samplesheet.data)
     variant_df = pd.merge(
-            variant_df, 
-            samplesheet_df, 
-            how="left", 
-            left_on="Pair ID", 
+            variant_df,
+            samplesheet_df,
+            how="left",
+            left_on="Pair ID",
             right_on="Pair_ID")
     variant_df = variant_df.loc[lambda df: df["Sample_Type"] != "RNA", :]
 
@@ -51,19 +51,19 @@ def main(variant_data, samplesheet, output="report", pdf=True):
 
     # plot and save TMB data
     tmb_fig = plotter.generate_plot(
-            dataset=variant_df, 
-            x_column="Pair ID", 
-            y_columns=TMB_FIELDS, 
-            fwidth=20, 
+            dataset=variant_df,
+            x_column="Pair ID",
+            y_columns=TMB_FIELDS,
+            fwidth=20,
             fheight=5)
     tmb_fig.savefig(f"{output}/img/tmb.png", bbox_inches="tight")
 
     # plot and save MSI data
     msi_fig = plotter.generate_plot(
-            dataset=variant_df, 
-            x_column="Pair ID", 
-            y_columns=MSI_FIELDS, 
-            fwidth=20, 
+            dataset=variant_df,
+            x_column="Pair ID",
+            y_columns=MSI_FIELDS,
+            fwidth=20,
             fheight=5)
     msi_fig.savefig(f"{output}/img/msi.png", bbox_inches="tight")
 
@@ -72,17 +72,15 @@ def main(variant_data, samplesheet, output="report", pdf=True):
     cvo = parser.CombinedVariantOutput(variant_data[0])
     run_name = cvo.sequencing_run_details["Run Name"]
     reporter.write_html(
-            variant_df, 
+            variant_df,
             embed=True,
-            run_name=run_name, 
-            report_dir=output, 
+            run_name=run_name,
+            report_dir=output,
             template_dir=HTML_TEMPLATE_DIR)
 
     # Optionally write PDF report
     if pdf:
-        reporter.write_pdf(
-                output, 
-                css_filepath=f"{HTML_TEMPLATE_DIR}/styles.css")
+        reporter.write_pdf(output)
 
 if __name__ == "__main__":
 
