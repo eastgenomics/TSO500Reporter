@@ -22,7 +22,7 @@ python3 -m tso500reporter --variant-data /path/to/*CombinedVariantOutput.tsv --s
 ```
 
 This will write an HTML and PDF report to the specified output directory containing Tumour Mutational Burden (TMB) and Microsatellite Instability (MSI) metrics.
-An example report can be found [here](examples/report.pdf).
+Please refer to the following links for examples of the [HTML][html-report-link] and [PDF][pdf-report-link] reports.
 
 #### Usage
 
@@ -120,3 +120,6 @@ Alternatively, we can access all of the data at once by accessing the `json` att
 
 dict_keys(['Analysis Details', 'Sequencing Run Details', 'TMB', 'MSI', 'Gene Amplifications', 'Splice Variants', 'Fusions', 'Small Variants'])
 ```
+
+[html-report-link]: https://htmlpreview.github.io/?https://github.com/eastgenomics/TSO500Reporter/blob/master/examples/report.html
+[pdf-report-link]: examples/report.pdf
