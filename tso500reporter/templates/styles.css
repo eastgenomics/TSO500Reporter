@@ -7,7 +7,7 @@ th, td {border: 1px solid black;}
     div.divHeader {
         font-size:1.875em;
         font-style: italic;
-        position: fixed;
+        position: absolute;
         top: 0;
         right: 0;
     }
@@ -16,7 +16,7 @@ th, td {border: 1px solid black;}
     div.divHeader {
         font-size:0.785em;
         font-style: italic;
-        position: fixed;
+        position: absolute;
         top: 0;
         right: 0;
     }
