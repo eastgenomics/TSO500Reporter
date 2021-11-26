@@ -16,15 +16,22 @@ def parse_arguments():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-d", "--variant-data",
-            help="filepaths to <SAMPLE>_*CombinedVariantOutput.tsv files",
-            nargs="+", required=True)
-    parser.add_argument("-s", "--samplesheet",
-            help="samplesheet",  required=True)
-    parser.add_argument("-o", "--output",
-            help="directory to store report", default="report")
-    parser.add_argument("-p", "--pdf",
-            help="include PDF report", action="store_true", default=False)
+    parser.add_argument(
+            "-d", "--variant-data", nargs="+", required=True,
+            help="filepaths to <SAMPLE>_*CombinedVariantOutput.tsv files"
+    )
+    parser.add_argument(
+            "-s", "--samplesheet", required=True,
+            help="samplesheet"
+    )
+    parser.add_argument(
+            "-o", "--output", default="report",
+            help="directory to store report"
+    )
+    parser.add_argument(
+            "-p", "--pdf", action="store_true", default=False,
+            help="include PDF report"
+    )
 
     args = parser.parse_args()
 
