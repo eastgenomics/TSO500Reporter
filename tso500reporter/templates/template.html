@@ -14,14 +14,14 @@
             <h2>Plot</h2>
             <img src={{tmb_plot_path}} id="tmb">
             <h2>Data</h2>
-            {{tmb_data.to_html(index=False)}}
+            {{tmb_data.to_html(index=False, classes=["table-striped"])}}
         </div>
         <div>
             <h1>Microsatellite Instability</h1>
             <h2>Plot</h2>
             <img src={{msi_plot_path}} id="msi">
             <h2>Data</h2>
-            {{msi_data.to_html(index=False)}}
+            {{msi_data.to_html(index=False, classes=["table-striped"])}}
         </div>
     </body>
 </html>
