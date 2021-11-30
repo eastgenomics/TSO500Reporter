@@ -19,15 +19,15 @@
             <h2>Plot</h2>
             <img src={{tmb_plot_path}} id="tmb">
             <h2>Data</h2>
-            {{tmb_data.to_html(index=False, classes=["table-striped", "table-hover", "table-bordered"])}}
+            {{tmb_data.to_html(index=False, classes=["table", "table-striped", "table-hover", "table-bordered"])}}
         </div>
         <br></br>
-        <div>
+        <div class="pagebreak">
             <h1>Microsatellite Instability</h1>
             <h2>Plot</h2>
             <img src={{msi_plot_path}} id="msi">
             <h2>Data</h2>
-            {{msi_data.to_html(index=False, classes=["table-striped", "table-hover", "table-bordered"])}}
+            {{msi_data.to_html(index=False, classes=["table", "table-striped", "table-hover", "table-bordered"])}}
         </div>
     </body>
 </html>
