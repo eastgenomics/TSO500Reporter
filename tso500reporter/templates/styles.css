@@ -1,0 +1,47 @@
+@page {
+    size: Letter;
+    margin: 0in 0.44in 0.2in 0.44in;
+}
+
+@media screen {
+    div.divHeader {
+        font-size:1.875em;
+        font-style: italic;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 1%;
+    }
+}
+
+@media print {
+    div.divHeader {
+        font-size:0.785em;
+        font-style: italic;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 1%; 
+    }
+    .pagebreak { page-break-before: always; }
+}
+
+body {
+    margin: 1%;
+}
+
+.table {
+    max-width: 60%;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+#tmb {
+    width: 100%;
+    height: 100%;
+}
+
+#msi {
+    width: 100%;
+    height: 100%;
+}

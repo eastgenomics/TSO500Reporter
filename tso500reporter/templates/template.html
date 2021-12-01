@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <div class="divHeader">{{run_name}}</div>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <style type="text/css">
+        {% filter indent(width=4) %}
+        {% include css_template %}
+        {% endfilter %}
+        </style>
+        <meta charset="utf-8">
+        <title>{{page_title_text}}</title>
+    </head>
+    <body>
+        <div>
+            <h1>Tumour Mutational Burden</h1>
+            <h2>Plot</h2>
+            <img src={{tmb_plot_path}} id="tmb">
+            <h2>Data</h2>
+            {{tmb_data.to_html(index=False, classes=["table", "table-striped", "table-hover", "table-bordered"])}}
+        </div>
+        <br></br>
+        <div class="pagebreak">
+            <h1>Microsatellite Instability</h1>
+            <h2>Plot</h2>
+            <img src={{msi_plot_path}} id="msi">
+            <h2>Data</h2>
+            {{msi_data.to_html(index=False, classes=["table", "table-striped", "table-hover", "table-bordered"])}}
+        </div>
+    </body>
+</html>

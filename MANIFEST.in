@@ -1,0 +1,2 @@
+include tso500reporter/templates/*
+include examples/*
