@@ -309,7 +309,8 @@ class SampleSheet(IlluminaFile):
         super().__init__(
                 filename,
                 delim=",",
-                tabular_sections=["Data"],
+                # TSO customized setting tag
+                tabular_sections=["TSO500S_Data"],
                 array_sections=["Reads"],
                 skip=0)
         self.header = None
@@ -351,8 +352,8 @@ class SampleSheet(IlluminaFile):
     @settings.setter
     def settings(self, val):
         if val is None:
-            self._settings = self.json["Settings"]
-
+            # TSO customized setting tag
+            self._settings = self.json["TSO500S_Settings"]
     @property
     def data(self) -> JSONType:
         """
@@ -363,7 +364,8 @@ class SampleSheet(IlluminaFile):
     @data.setter
     def data(self, val):
         if val is None:
-            self._data = self.json["Data"]
+            # TSO customized setting tag
+            self._data = self.json["TSO500S_Data"] 
 
 
 def find_duplicate_keys(record: Dict[str, Dict]) -> List:

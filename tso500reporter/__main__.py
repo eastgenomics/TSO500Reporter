@@ -75,7 +75,9 @@ def main(variant_data, samplesheet, output="report", pdf=True):
     # Write HTML report
     # need sequencing run header from one of the CVO files
     cvo = parser.CombinedVariantOutput(variant_data[0])
-    run_name = cvo.sequencing_run_details["Run Name"]
+    
+    ## Hard coded during intrm, function call cvo.sequencing_run_details will need to be modified
+    run_name = "TSO_Run_Trial3" # cvo.sequencing_run_details["Run Name"]
     reporter.write_html(
             variant_df,
             embed=True,
